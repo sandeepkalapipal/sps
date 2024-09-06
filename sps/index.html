@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+   <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+    <!-- --------------heading----------- -->
+<h1>Rock Paper Seossors</h1>
+<!-- ----------------------img---------------- -->
+<div class="choices">
+<div class="choice" id="rock">
+    <img src="rock.png">
+</div>
+<div class="choice" id="paper">
+    <img src="paper.png">
+</div>
+<div class="choice" id="scissors">
+    <img src="scissors.png">
+</div>
+</div>
+
+<!-- ---------------------------------scor---------------------- -->
+ <div class="score-board">
+    <div class="score">
+        <p id="user_score">0</p>
+        <p>You</p>
+      
+    </div>
+    <div class="score">
+        <p id="comp_score">0</p>
+        <p>computer</p>
+    </div>
+ </div>
+<!-- ------------------------msg container---------------------- -->
+ <div class="msg-container">
+    <p id="msg">play your move</p>
+ </div>    
+</body>
+<script>
+    let user_score=0;
+    let comp_score=0;
+
+    const choices=document.querySelectorAll(".choice");
+    const msg=document.querySelector("#msg");
+    const userscore=document.querySelector("#user_score");
+    const compscore=document.querySelector("#comp_score");
+
+    const gencompchoice=()=>
+{
+    const options=["rock","paper","scissors"];
+    const randidx=Math.floor(Math.random() * 3 );
+    return options[randidx]  ; 
+}
+
+const showwin=(userwin ,userchoice,compchoice)=>{
+    if(userwin)
+{
+    console.log("You win...!");
+    user_score++;
+    userscore.innerText=user_score;
+    msg.innerText=`You win.... your ${userchoice} beats ${compchoice}`;
+    msg.style.backgroundColor="green"
+}
+else{
+    console.log("you lose");    
+    comp_score++;
+    compscore.innerText=comp_score;
+    msg.innerText=`You lost.. ${userchoice} beats your ${compchoice}`;
+
+    msg.style.backgroundColor="red"
+    
+}
+}
+
+ const drawgame=()=>{
+    console.log("game was draw"); 
+    msg.innerText="game draw";  
+    msg.style.backgroundColor="gray"  
+ };
+
+    const playgame=(userchoice)=>
+{
+    console.log("user choice",userchoice  );
+
+    const compchoice=gencompchoice();
+    console.log("computer choice",compchoice);
+
+    if(userchoice===compchoice)
+{
+       drawgame();
+}
+else{
+    let userwin=true;
+
+    if(userchoice=="rock")
+{
+    userwin=compchoice==="paper"? false : true;
+}
+else if(userchoice=="paper")
+{
+    userchoice=compchoice==="scissors" ? false :true;
+}
+else{
+    userchoice=compchoice==="rock" ? false :true;
+}
+showwin(userwin,userchoice,compchoice);
+}
+}
+
+    choices.forEach((choice) => {
+        choice.addEventListener("click" ,() => {
+            const userchoice=choice.getAttribute("id");
+            playgame(userchoice);
+        });        
+    });
+    
+
+</script>
+</html>
